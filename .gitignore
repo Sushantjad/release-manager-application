@@ -1,0 +1,27 @@
+# Operating system and editor files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Local settings and secrets
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# Dependencies and generated output
+node_modules/
+dist/
+build/
+coverage/
+*.log
+
+# Python temporary files
+__pycache__/
+*.py[cod]
+
+# Document quality-check output
+documents/qa_*/
+documents/*_a11y.json

@@ -1,0 +1,199 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Release Manager Application</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="brand-mark">RM</div>
+        <div>
+          <h1>Release Manager</h1>
+          <p>End-to-end release tracking</p>
+        </div>
+      </div>
+      <nav class="nav" aria-label="Main navigation">
+        <button class="nav-item active" data-view="dashboard">Dashboard</button>
+        <button class="nav-item" data-view="release">Release</button>
+        <button class="nav-item" data-view="rmi">RMI</button>
+        <button class="nav-item" data-view="deployment">Deployment</button>
+        <button class="nav-item" data-view="releaseDay">Release Day</button>
+      </nav>
+      <div class="access-box">
+        <span>Read access</span>
+        <strong>Business Team</strong>
+      </div>
+    </aside>
+
+    <main class="app-shell">
+      <header class="topbar">
+        <div>
+          <p class="eyebrow">June Release 2026</p>
+          <h2 id="view-title">Dashboard</h2>
+        </div>
+        <div class="release-state" id="release-state">Not Started</div>
+      </header>
+
+      <section class="view active" id="dashboard">
+        <div class="control-band">
+          <div>
+            <p class="eyebrow">Release Control</p>
+            <h3>Start or stop the release day execution</h3>
+          </div>
+          <div class="button-row">
+            <button class="primary" id="start-release">Start Release</button>
+            <button class="danger" id="stop-release">Stop Release</button>
+          </div>
+        </div>
+
+        <div class="metrics-grid">
+          <article class="metric">
+            <span class="metric-label">Release completed applications</span>
+            <strong id="completed-apps">0</strong>
+            <small>Applications deployed successfully</small>
+          </article>
+          <article class="metric">
+            <span class="metric-label">Ongoing applications</span>
+            <strong id="ongoing-apps">0</strong>
+            <small>Deployment currently in progress</small>
+          </article>
+          <article class="metric">
+            <span class="metric-label">Pending applications</span>
+            <strong id="pending-apps">0</strong>
+            <small>Applications waiting for deployment</small>
+          </article>
+          <article class="metric">
+            <span class="metric-label">JIRA ticket count</span>
+            <strong id="jira-count">0</strong>
+            <small>Incidents tagged to release</small>
+          </article>
+        </div>
+
+        <div class="dashboard-grid">
+          <section class="panel">
+            <div class="panel-header">
+              <h3>Application Release Status</h3>
+              <span class="pill green">Live Tracking</span>
+            </div>
+            <div class="status-list" id="application-status"></div>
+          </section>
+
+          <section class="panel">
+            <div class="panel-header">
+              <h3>Management Status</h3>
+              <span class="pill yellow" id="overall-pill">Yellow</span>
+            </div>
+            <textarea id="status-message" rows="8">Release is progressing as planned. UAT completed applications are moving through deployment window. Current issues and JIRA incidents are being monitored by release planner and application POC.</textarea>
+            <button class="secondary">Send Hourly Update</button>
+          </section>
+        </div>
+      </section>
+
+      <section class="view" id="release">
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>RMI Number</th>
+                <th>Project Details</th>
+                <th>Project Manager Name</th>
+                <th>Release Manager Name</th>
+                <th>Application Name</th>
+              </tr>
+            </thead>
+            <tbody id="release-table"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="view" id="rmi">
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>RMI Number</th>
+                <th>RMI Status</th>
+                <th>Release Planner Name</th>
+              </tr>
+            </thead>
+            <tbody id="rmi-table"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="view" id="deployment">
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>RMI Number</th>
+                <th>Application Name</th>
+                <th>Planned Start Time</th>
+                <th>Planned End Time</th>
+                <th>Actual Start Time</th>
+                <th>Actual End Time</th>
+                <th>CR Number</th>
+                <th>POC During Release Night</th>
+                <th>Remark</th>
+              </tr>
+            </thead>
+            <tbody id="deployment-table"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="view" id="releaseDay">
+        <div class="release-day-grid">
+          <section class="panel">
+            <h3>Release Status</h3>
+            <div class="status-buttons">
+              <button class="status green" data-status="Green">Green</button>
+              <button class="status yellow" data-status="Yellow">Yellow</button>
+              <button class="status red" data-status="Red">Red</button>
+            </div>
+            <div class="summary-box">
+              <span>Current status</span>
+              <strong id="current-overall-status">Yellow</strong>
+            </div>
+          </section>
+
+          <section class="panel">
+            <h3>Distribution List</h3>
+            <div class="dl-list">
+              <label><input type="checkbox" checked /> release-management@company.com</label>
+              <label><input type="checkbox" checked /> project-managers@company.com</label>
+              <label><input type="checkbox" checked /> business-team@company.com</label>
+              <label><input type="checkbox" /> leadership@company.com</label>
+            </div>
+          </section>
+
+          <section class="panel wide">
+            <div class="panel-header">
+              <h3>JIRA Incidents</h3>
+              <span class="pill red">Auto tagged by affected version</span>
+            </div>
+            <div class="table-wrap compact">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Ticket</th>
+                    <th>Application</th>
+                    <th>Severity</th>
+                    <th>Status</th>
+                    <th>Owner</th>
+                  </tr>
+                </thead>
+                <tbody id="incident-table"></tbody>
+              </table>
+            </div>
+          </section>
+        </div>
+      </section>
+    </main>
+
+    <script src="app.js"></script>
+  </body>
+</html>
