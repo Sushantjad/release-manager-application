@@ -1,4 +1,4 @@
-const releaseItems = [
+let releaseItems = [
   {
     rmi: "RMI-10452",
     project: "Customer onboarding workflow upgrade",
@@ -69,7 +69,7 @@ const releaseItems = [
   }
 ];
 
-const incidents = [
+let incidents = [
   {
     ticket: "JIRA-49211",
     app: "Document Hub",
@@ -109,6 +109,41 @@ const viewTitles = {
 
 function setText(id, value) {
   document.getElementById(id).textContent = value;
+}
+
+function applyReleaseState(state) {
+  const releaseState = document.getElementById("release-state");
+  releaseState.textContent = state;
+
+  if (state === "Release Started") {
+    releaseState.style.background = "#dcfce7";
+    releaseState.style.color = "#16825d";
+  } else if (state === "Release Stopped") {
+    releaseState.style.background = "#fee2e2";
+    releaseState.style.color = "#c2414b";
+  } else {
+    releaseState.style.background = "";
+    releaseState.style.color = "";
+  }
+}
+
+function applyOverallStatus(status) {
+  setText("current-overall-status", status);
+  setText("overall-pill", status);
+  document.getElementById("overall-pill").className = `pill ${status.toLowerCase()}`;
+}
+
+async function updateReleaseStatus(update) {
+  const response = await fetch("/api/releases/current/status", {
+    method: "PATCH",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(update)
+  });
+
+  if (!response.ok) {
+    throw new Error("The backend could not update the release");
+  }
+  return response.json();
 }
 
 function createCell(text) {
@@ -231,36 +266,60 @@ function setupNavigation() {
 }
 
 function setupReleaseControls() {
-  const releaseState = document.getElementById("release-state");
-  document.getElementById("start-release").addEventListener("click", () => {
-    releaseState.textContent = "Release Started";
-    releaseState.style.background = "#dcfce7";
-    releaseState.style.color = "#16825d";
+  document.getElementById("start-release").addEventListener("click", async () => {
+    try {
+      const release = await updateReleaseStatus({ state: "Release Started" });
+      applyReleaseState(release.state);
+    } catch (error) {
+      alert(error.message);
+    }
   });
 
-  document.getElementById("stop-release").addEventListener("click", () => {
-    releaseState.textContent = "Release Stopped";
-    releaseState.style.background = "#fee2e2";
-    releaseState.style.color = "#c2414b";
+  document.getElementById("stop-release").addEventListener("click", async () => {
+    try {
+      const release = await updateReleaseStatus({ state: "Release Stopped" });
+      applyReleaseState(release.state);
+    } catch (error) {
+      alert(error.message);
+    }
   });
 }
 
 function setupOverallStatus() {
   document.querySelectorAll(".status").forEach((button) => {
-    button.addEventListener("click", () => {
+    button.addEventListener("click", async () => {
       const status = button.dataset.status;
-      setText("current-overall-status", status);
-      setText("overall-pill", status);
-      document.getElementById("overall-pill").className = `pill ${status.toLowerCase()}`;
+      try {
+        const release = await updateReleaseStatus({ overallStatus: status });
+        applyOverallStatus(release.overallStatus);
+      } catch (error) {
+        alert(error.message);
+      }
     });
   });
 }
 
-renderDashboard();
-renderReleaseTable();
-renderRmiTable();
-renderDeploymentTable();
-renderIncidentTable();
-setupNavigation();
-setupReleaseControls();
-setupOverallStatus();
+async function loadApplication() {
+  try {
+    const response = await fetch("/api/releases/current");
+    if (!response.ok) throw new Error("API unavailable");
+    const data = await response.json();
+    releaseItems = data.releaseItems;
+    incidents = data.incidents;
+    applyReleaseState(data.release.state);
+    applyOverallStatus(data.release.overallStatus);
+  } catch (error) {
+    console.warn("Using built-in sample data because the API is unavailable.", error);
+  }
+
+  renderDashboard();
+  renderReleaseTable();
+  renderRmiTable();
+  renderDeploymentTable();
+  renderIncidentTable();
+  setupNavigation();
+  setupReleaseControls();
+  setupOverallStatus();
+}
+
+loadApplication();

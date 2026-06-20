@@ -1,0 +1,102 @@
+{
+  "release": {
+    "id": "REL-JUN-2026",
+    "name": "June Release 2026",
+    "state": "Release Started",
+    "overallStatus": "Yellow",
+    "updatedAt": "2026-06-20T12:40:29.441Z"
+  },
+  "releaseItems": [
+    {
+      "rmi": "RMI-10452",
+      "project": "Customer onboarding workflow upgrade",
+      "pm": "Anita Sharma",
+      "rm": "Rahul Mehta",
+      "app": "Onboarding Portal",
+      "planner": "Neha Gupta",
+      "rmiStatus": "Green",
+      "plannedStart": "21:00",
+      "plannedEnd": "21:45",
+      "actualStart": "21:02",
+      "actualEnd": "21:38",
+      "cr": "CRQ-77821",
+      "poc": "S. Kumar",
+      "remark": "Completed",
+      "deploymentStatus": "Completed"
+    },
+    {
+      "rmi": "RMI-10467",
+      "project": "Payment service version uplift",
+      "pm": "Vikram Rao",
+      "rm": "Rahul Mehta",
+      "app": "Payment Gateway",
+      "planner": "Neha Gupta",
+      "rmiStatus": "Orange",
+      "plannedStart": "21:45",
+      "plannedEnd": "22:30",
+      "actualStart": "21:48",
+      "actualEnd": "",
+      "cr": "CRQ-77844",
+      "poc": "A. Khan",
+      "remark": "Deployment in progress",
+      "deploymentStatus": "Ongoing"
+    },
+    {
+      "rmi": "RMI-10479",
+      "project": "Policy document service release",
+      "pm": "Meera Iyer",
+      "rm": "Rahul Mehta",
+      "app": "Document Hub",
+      "planner": "Amit Jain",
+      "rmiStatus": "Red",
+      "plannedStart": "22:30",
+      "plannedEnd": "23:10",
+      "actualStart": "",
+      "actualEnd": "",
+      "cr": "CRQ-77902",
+      "poc": "P. Nair",
+      "remark": "Waiting for blocker clearance",
+      "deploymentStatus": "Pending"
+    },
+    {
+      "rmi": "RMI-10503",
+      "project": "Analytics dashboard monthly release",
+      "pm": "Anita Sharma",
+      "rm": "Rahul Mehta",
+      "app": "Insights Dashboard",
+      "planner": "Amit Jain",
+      "rmiStatus": "Green",
+      "plannedStart": "23:10",
+      "plannedEnd": "23:50",
+      "actualStart": "",
+      "actualEnd": "",
+      "cr": "CRQ-77914",
+      "poc": "R. Das",
+      "remark": "Ready for release window",
+      "deploymentStatus": "Pending"
+    }
+  ],
+  "incidents": [
+    {
+      "ticket": "JIRA-49211",
+      "app": "Document Hub",
+      "severity": "High",
+      "status": "Open",
+      "owner": "P. Nair"
+    },
+    {
+      "ticket": "JIRA-49234",
+      "app": "Payment Gateway",
+      "severity": "Medium",
+      "status": "Monitoring",
+      "owner": "A. Khan"
+    },
+    {
+      "ticket": "JIRA-49256",
+      "app": "Onboarding Portal",
+      "severity": "Low",
+      "status": "Resolved",
+      "owner": "S. Kumar"
+    }
+  ]
+}

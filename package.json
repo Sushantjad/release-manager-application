@@ -1,0 +1,13 @@
+{
+  "name": "release-manager-application",
+  "version": "1.0.0",
+  "description": "AI-enabled application for end-to-end release management",
+  "private": true,
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
